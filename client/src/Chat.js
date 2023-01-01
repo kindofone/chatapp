@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
 import ChatSidebar from './ChatSidebar';
 import ChatThread from './ChatThread';
-import { Card, CardContent, Container, Paper } from '@mui/material';
+import { Container, Paper } from '@mui/material';
 
 function Chat({socket}) {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function Chat({socket}) {
     } else {
       navigate('/');
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -26,12 +26,11 @@ function Chat({socket}) {
       socket.on('messageResponse', payload => {
         console.log('receiving', messages, payload);
         setMessages(state => {
-          console.log(state);
           return [...state, payload];
         });
       });
     }
-  }, []);
+  }, [messages, socket]);
 
   return (
     <Container maxWidth="md" sx={{ marginTop: '50px' }}>

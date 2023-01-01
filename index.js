@@ -34,6 +34,6 @@ io.on('connection', (socket) => {
   });
 });
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log('listening on *:4000');
 });

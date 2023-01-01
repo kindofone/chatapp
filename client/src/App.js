@@ -3,7 +3,7 @@ import socketIO from 'socket.io-client';
 import Chat from './Chat';
 import Home from './Home';
 
-const socket = socketIO.connect('http://localhost:3000/');
+const socket = socketIO.connect();
 
 function App() {
   return (
