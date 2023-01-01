@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const http = require('http');
 const httpServer = http.createServer(app);
@@ -6,9 +7,12 @@ const { Server } = require('socket.io');
 const io = new Server(httpServer);
 
 const users = {};
+let port = 4000;
 
-app.get('/', (req, res) => {
-  res.send('<h1>Server</h1>');
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+app.get('*', async (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 io.on('connection', (socket) => {
@@ -30,6 +34,10 @@ io.on('connection', (socket) => {
   });
 });
 
-httpServer.listen(4000, () => {
+if (process.env.NODE_ENV === 'production') {
+  port = 80;
+}
+
+httpServer.listen(port, () => {
   console.log('listening on *:4000');
 });
