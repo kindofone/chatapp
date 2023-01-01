@@ -7,11 +7,11 @@ const { Server } = require('socket.io');
 const io = new Server(httpServer);
 
 const users = {};
-let port = 4000;
+const port = process.env.PORT || 4000;
 
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-app.get('*', async (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
@@ -34,10 +34,6 @@ io.on('connection', (socket) => {
   });
 });
 
-if (process.env.NODE_ENV === 'production') {
-  port = 80;
-}
-
-httpServer.listen(port, () => {
+app.listen(port, () => {
   console.log('listening on *:4000');
 });
